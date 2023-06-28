@@ -1,0 +1,8 @@
+go inside ccapdev_forum folder
+open cmd (this should have the path for ccapdev-forum folder)
+type "npm install"
+*if npm install doesn't work, delete the node_modules folder then try again
+type "npm run dev"
+type "http://localhost:3000/" in your browser
+
+if this doesnt work check which link cmd provided
