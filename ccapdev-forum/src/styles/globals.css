@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    @apply bg-[#020403];
+    overscroll-behavior: none;
+    @apply text-[#f8fcfa];
+}
+.textColor{
+    @apply text-[#f8fcfa];
+}
+.primaryButton{
+    @apply bg-[#34a00d];
+}
+.secondaryButton{
+    @apply bg-[#000000];
+}

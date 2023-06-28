@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String   @db.VarChar(100)
+  content   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  comments  Comment[] @relation("PostToComment")
+  votes     Vote[]
+
+  @@fulltext([title]) 
+  @@fulltext([content])
+  @@fulltext([title, content])
+}
+
+model Comment {
+  id              String     @id @default(cuid())
+  content         String     @db.VarChar(255)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  postId          String
+  authorId        String
+  parentCommentId String?
+  parentComment   Comment?   @relation("ChildComments", fields: [parentCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childComments   Comment[]  @relation("ChildComments")
+  votes           Vote[]
+  post            Post       @relation("PostToComment", fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([parentCommentId])
+  @@index([postId])
+  @@fulltext([content])
+}
+
+model Vote {
+  id          String    @id @default(cuid())
+  vote        Boolean    // true for upvote and false for downvote
+  postId      String?
+  authorId    String
+  commentId   String?
+  post        Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment     Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([commentId])
+}
+
+model profile{
+  id          String    @id @default(cuid())
+  description String     @db.VarChar(255)
+}
