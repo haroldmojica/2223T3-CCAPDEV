@@ -6,3 +6,6 @@ type "npm run dev"
 type "http://localhost:3000/" in your browser
 
 if this doesnt work check which link cmd provided
+
+-----------------------------------
+link to the website: https://ccapdev-forum.vercel.app
